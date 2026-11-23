@@ -61,3 +61,10 @@ Accepts a single rule or an array and returns a normalized array. Useful when bu
 ### `hashStringToUnitInterval(key, bucketCount = 10000)`
 
 Maps a string to a float in `[0, 1)` using FNV-1a. Exported because rollout decisions are deterministic and callers may want to reproduce or inspect them.
+
+## Performance
+
+The window keeps a bounded buffer, so `push` is constant time and memory does not
+grow with the length of the stream. `peak` and `trough` are linear in the window
+size, which is the trade that keeps `push` cheap.
+
